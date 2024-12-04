@@ -95,6 +95,12 @@
 
 <body>
   <div class="container">
+    <div id="radioOptions">
+      <input type="radio" id="currentPage" name="pageOption" value="_self" checked>
+      <label for="currentPage">当前页面跳转</label>
+      <input type="radio" id="newPage" name="pageOption" value="_blank">
+      <label for="newPage">打开新页面</label>
+    </div>
     <div class="search-box">
       <input type="text" id="search" placeholder="搜索英雄..." oninput="searchHeroes()">
       <div class="suggestions" id="suggestions"></div>
@@ -1132,17 +1138,16 @@
 
       // 根据输入的内容过滤匹配的英雄
       const filteredHeroes = heroes.filter(hero => {
-        console.log("searchTerm: ", searchTerm)
-        console.log("hero.keywords: ", searchTerm)
         return hero.customKeywords?.includes(searchTerm) || hero.keywords?.includes(searchTerm)
       });
 
       // 如果有匹配的英雄，展示建议框
       if (filteredHeroes.length > 0) {
         suggestions.style.display = "block";
+        const radioOption = document.querySelector('input[name="pageOption"]:checked').value;
         filteredHeroes.forEach(hero => {
           const suggestionItem = document.createElement("div");
-          suggestionItem.onclick = () => window.open(`https://www.op.gg/modes/aram/${hero.alias}/items?region=global&tier=all`, "_blank");
+          suggestionItem.onclick = () => window.open(`https://www.op.gg/modes/aram/${hero.alias}/items?region=global&tier=all`, radioOption);
 
           const heroImage = document.createElement("img");
           const baseImgUrl = "https://game.gtimg.cn/images/lol/act/img/champion/"
